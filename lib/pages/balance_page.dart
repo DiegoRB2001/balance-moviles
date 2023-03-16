@@ -1,6 +1,7 @@
-import 'package:balance/widgets/balance_page_wt/back_sheet.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:balance/widgets/balance_page_wt/front_sheet.dart';
+import 'package:balance/widgets/balance_page_wt/back_sheet.dart';
 
 class BalancePage extends StatefulWidget {
   const BalancePage({super.key});
@@ -50,7 +51,7 @@ class _BalancePageState extends State<BalancePage> {
                 Text(
                   '\$ 2,500.00',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.greenAccent,
                       fontSize: 30,
                       fontWeight: FontWeight.bold),
                 ),
@@ -73,7 +74,7 @@ class _BalancePageState extends State<BalancePage> {
                 height: 250,
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColorDark,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30)),
                 ),
@@ -81,15 +82,7 @@ class _BalancePageState extends State<BalancePage> {
               ),
               Padding(
                 padding: EdgeInsets.only(top: _max),
-                child: Container(
-                  height: 800,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColorLight,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30)),
-                  ),
-                ),
+                child: const FrontSheet(),
               )
             ],
           )

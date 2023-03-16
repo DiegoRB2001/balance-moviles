@@ -1,8 +1,17 @@
-import 'package:balance/pages/home_page.dart';
+import 'package:balance/providers/ui_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:balance/pages/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UIProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,8 +23,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
+      theme: ThemeData.dark().copyWith(
+        appBarTheme: AppBarTheme(backgroundColor: Colors.grey[900]),
+        bottomNavigationBarTheme:
+            const BottomNavigationBarThemeData(selectedItemColor: Colors.blue),
+        scaffoldBackgroundColor: Colors.grey[900],
+        primaryColorDark: Colors.grey[800],
       ),
       initialRoute: 'home',
       routes: {'home': (_) => const HomePage()},
