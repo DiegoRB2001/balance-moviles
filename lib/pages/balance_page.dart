@@ -1,3 +1,4 @@
+import 'package:balance/widgets/balance_page_wt/custom_fab.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:balance/widgets/balance_page_wt/front_sheet.dart';
@@ -38,56 +39,59 @@ class _BalancePageState extends State<BalancePage> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        SliverAppBar(
-          elevation: 0.0,
-          expandedHeight: 120,
-          flexibleSpace: FlexibleSpaceBar(
-            background: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  '\$ 2,500.00',
-                  style: TextStyle(
-                      color: Colors.greenAccent,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'Balance',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                )
-              ],
+    return Scaffold(
+      floatingActionButton: const CustomFAB(),
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverAppBar(
+            elevation: 0.0,
+            expandedHeight: 120,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    '\$ 2,500.00',
+                    style: TextStyle(
+                        color: Colors.greenAccent,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'Balance',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          Stack(
-            children: [
-              Container(
-                height: 250,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColorDark,
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)),
+          SliverList(
+              delegate: SliverChildListDelegate([
+            Stack(
+              children: [
+                Container(
+                  height: 250,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColorDark,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30)),
+                  ),
+                  child: const BackSheet(),
                 ),
-                child: const BackSheet(),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: _max),
-                child: const FrontSheet(),
-              )
-            ],
-          )
-        ]))
-      ],
+                Padding(
+                  padding: EdgeInsets.only(top: _max),
+                  child: const FrontSheet(),
+                )
+              ],
+            )
+          ]))
+        ],
+      ),
     );
   }
 }
