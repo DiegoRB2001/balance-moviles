@@ -19,8 +19,13 @@ class CustomFAB extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          animacion(context, 700, Curves.easeInOutBack, const Alignment(0.8, 1),
-              const AddEntries()),
+          // animacion(context, 700, Curves.easeInOutBack, const Alignment(0.8, 1),
+          //     const AddEntries()),
+          CustomAnimation(
+              pagina: const AddEntries(),
+              animacion: Curves.easeInOutBack,
+              milisegundos: 700,
+              alineacion: const Alignment(0.8, 1)),
         );
       },
     ));
@@ -34,8 +39,13 @@ class CustomFAB extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          animacion(context, 700, Curves.decelerate, const Alignment(-0.8, 1),
-              const AddExpenses()),
+          // animacion(context, 700, Curves.decelerate, const Alignment(-0.8, 1),
+          //     const AddExpenses()),
+          CustomAnimation(
+              pagina: const AddExpenses(),
+              milisegundos: 700,
+              animacion: Curves.decelerate,
+              alineacion: const Alignment(-0.8, 1)),
         );
       },
     ));
@@ -75,41 +85,35 @@ PageRouteBuilder animacion(BuildContext context, int milisegundos,
   );
 }
 
-// class CustomAnimation extends StatelessWidget {
-//   const CustomAnimation(
-//       {super.key,
-//       required this.context,
-//       this.segundos = 5,
-//       this.animacion = Curves.easeInOutBack,
-//       this.alineacion = const Alignment(0.8, 1),
-//       required this.pagina});
-
-//   final BuildContext context;
-//   final int segundos;
-//   final Curve animacion;
-//   final Alignment alineacion;
-//   final Widget pagina;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return PageRouteBuilder(
-//     transitionDuration: Duration(seconds: segundos),
-//     transitionsBuilder: (BuildContext context, Animation<double> animation,
-//         Animation<double> secAnimation, Widget child) {
-//       animation = CurvedAnimation(
-//         parent: animation,
-//         curve: animacion,
-//       );
-//       return ScaleTransition(
-//         alignment: alineacion,
-//         scale: animation,
-//         child: child,
-//       );
-//     },
-//     pageBuilder: (BuildContext context, Animation<double> animation,
-//         Animation<double> secAnimation) {
-//       return pagina;
-//     },
-//   );
-//   }
-// }
+class CustomAnimation extends PageRouteBuilder {
+  final int milisegundos;
+  final Curve animacion;
+  final Alignment alineacion;
+  final Widget pagina;
+  CustomAnimation(
+      {this.milisegundos = 5000,
+      this.animacion = Curves.easeInOutBack,
+      this.alineacion = const Alignment(0.8, 1),
+      required this.pagina})
+      : super(
+          transitionDuration: Duration(milliseconds: milisegundos),
+          transitionsBuilder: (BuildContext context,
+              Animation<double> animation,
+              Animation<double> secAnimation,
+              Widget child) {
+            animation = CurvedAnimation(
+              parent: animation,
+              curve: animacion,
+            );
+            return ScaleTransition(
+              alignment: alineacion,
+              scale: animation,
+              child: child,
+            );
+          },
+          pageBuilder: (BuildContext context, Animation<double> animation,
+              Animation<double> secAnimation) {
+            return pagina;
+          },
+        );
+}
