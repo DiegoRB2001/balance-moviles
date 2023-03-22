@@ -1,5 +1,6 @@
 import 'package:balance/pages/add_entries.dart';
 import 'package:balance/pages/add_expenses.dart';
+import 'package:balance/widgets/balance_page_wt/custom_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -62,58 +63,25 @@ class CustomFAB extends StatelessWidget {
   }
 }
 
-PageRouteBuilder animacion(BuildContext context, int milisegundos,
-    Curve animacion, Alignment alineacion, Widget pagina) {
-  return PageRouteBuilder(
-    transitionDuration: Duration(milliseconds: milisegundos),
-    transitionsBuilder: (BuildContext context, Animation<double> animation,
-        Animation<double> secAnimation, Widget child) {
-      animation = CurvedAnimation(
-        parent: animation,
-        curve: animacion,
-      );
-      return ScaleTransition(
-        alignment: alineacion,
-        scale: animation,
-        child: child,
-      );
-    },
-    pageBuilder: (BuildContext context, Animation<double> animation,
-        Animation<double> secAnimation) {
-      return pagina;
-    },
-  );
-}
-
-class CustomAnimation extends PageRouteBuilder {
-  final int milisegundos;
-  final Curve animacion;
-  final Alignment alineacion;
-  final Widget pagina;
-  CustomAnimation(
-      {this.milisegundos = 5000,
-      this.animacion = Curves.easeInOutBack,
-      this.alineacion = const Alignment(0.8, 1),
-      required this.pagina})
-      : super(
-          transitionDuration: Duration(milliseconds: milisegundos),
-          transitionsBuilder: (BuildContext context,
-              Animation<double> animation,
-              Animation<double> secAnimation,
-              Widget child) {
-            animation = CurvedAnimation(
-              parent: animation,
-              curve: animacion,
-            );
-            return ScaleTransition(
-              alignment: alineacion,
-              scale: animation,
-              child: child,
-            );
-          },
-          pageBuilder: (BuildContext context, Animation<double> animation,
-              Animation<double> secAnimation) {
-            return pagina;
-          },
-        );
-}
+// PageRouteBuilder animacion(BuildContext context, int milisegundos,
+//     Curve animacion, Alignment alineacion, Widget pagina) {
+//   return PageRouteBuilder(
+//     transitionDuration: Duration(milliseconds: milisegundos),
+//     transitionsBuilder: (BuildContext context, Animation<double> animation,
+//         Animation<double> secAnimation, Widget child) {
+//       animation = CurvedAnimation(
+//         parent: animation,
+//         curve: animacion,
+//       );
+//       return ScaleTransition(
+//         alignment: alineacion,
+//         scale: animation,
+//         child: child,
+//       );
+//     },
+//     pageBuilder: (BuildContext context, Animation<double> animation,
+//         Animation<double> secAnimation) {
+//       return pagina;
+//     },
+//   );
+// }
