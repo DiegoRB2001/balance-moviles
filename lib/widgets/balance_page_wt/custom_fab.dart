@@ -18,28 +18,10 @@ class CustomFAB extends StatelessWidget {
       labelStyle: const TextStyle(fontSize: 18),
       onTap: () {
         Navigator.push(
-            context,
-            PageRouteBuilder(
-              transitionDuration: const Duration(milliseconds: 400),
-              transitionsBuilder: (BuildContext context,
-                  Animation<double> animation,
-                  Animation<double> secAnimation,
-                  Widget child) {
-                animation = CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeOutBack,
-                );
-                return ScaleTransition(
-                  alignment: const Alignment(0.8, 1),
-                  scale: animation,
-                  child: child,
-                );
-              },
-              pageBuilder: (BuildContext context, Animation<double> animation,
-                  Animation<double> secAnimation) {
-                return const AddExpenses();
-              },
-            ));
+          context,
+          animacion(context, 700, Curves.easeInOutBack, const Alignment(0.8, 1),
+              const AddEntries()),
+        );
       },
     ));
 
@@ -50,7 +32,11 @@ class CustomFAB extends StatelessWidget {
       label: 'Ingreso',
       labelStyle: const TextStyle(fontSize: 18),
       onTap: () {
-        Navigator.pushNamed(context, 'addEntries');
+        Navigator.push(
+          context,
+          animacion(context, 700, Curves.decelerate, const Alignment(-0.8, 1),
+              const AddExpenses()),
+        );
       },
     ));
 
@@ -65,3 +51,65 @@ class CustomFAB extends StatelessWidget {
     );
   }
 }
+
+PageRouteBuilder animacion(BuildContext context, int milisegundos,
+    Curve animacion, Alignment alineacion, Widget pagina) {
+  return PageRouteBuilder(
+    transitionDuration: Duration(milliseconds: milisegundos),
+    transitionsBuilder: (BuildContext context, Animation<double> animation,
+        Animation<double> secAnimation, Widget child) {
+      animation = CurvedAnimation(
+        parent: animation,
+        curve: animacion,
+      );
+      return ScaleTransition(
+        alignment: alineacion,
+        scale: animation,
+        child: child,
+      );
+    },
+    pageBuilder: (BuildContext context, Animation<double> animation,
+        Animation<double> secAnimation) {
+      return pagina;
+    },
+  );
+}
+
+// class CustomAnimation extends StatelessWidget {
+//   const CustomAnimation(
+//       {super.key,
+//       required this.context,
+//       this.segundos = 5,
+//       this.animacion = Curves.easeInOutBack,
+//       this.alineacion = const Alignment(0.8, 1),
+//       required this.pagina});
+
+//   final BuildContext context;
+//   final int segundos;
+//   final Curve animacion;
+//   final Alignment alineacion;
+//   final Widget pagina;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return PageRouteBuilder(
+//     transitionDuration: Duration(seconds: segundos),
+//     transitionsBuilder: (BuildContext context, Animation<double> animation,
+//         Animation<double> secAnimation, Widget child) {
+//       animation = CurvedAnimation(
+//         parent: animation,
+//         curve: animacion,
+//       );
+//       return ScaleTransition(
+//         alignment: alineacion,
+//         scale: animation,
+//         child: child,
+//       );
+//     },
+//     pageBuilder: (BuildContext context, Animation<double> animation,
+//         Animation<double> secAnimation) {
+//       return pagina;
+//     },
+//   );
+//   }
+// }
