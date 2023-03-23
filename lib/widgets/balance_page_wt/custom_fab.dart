@@ -23,7 +23,7 @@ class CustomFAB extends StatelessWidget {
           // animacion(context, 700, Curves.easeInOutBack, const Alignment(0.8, 1),
           //     const AddEntries()),
           CustomAnimation(
-              pagina: const AddEntries(),
+              pagina: const AddExpenses(),
               animacion: Curves.easeInOutBack,
               milisegundos: 700,
               alineacion: const Alignment(0.8, 1)),
@@ -43,7 +43,7 @@ class CustomFAB extends StatelessWidget {
           // animacion(context, 700, Curves.decelerate, const Alignment(-0.8, 1),
           //     const AddExpenses()),
           CustomAnimation(
-              pagina: const AddExpenses(),
+              pagina: const AddEntries(),
               milisegundos: 700,
               animacion: Curves.decelerate,
               alineacion: const Alignment(-0.8, 1)),
