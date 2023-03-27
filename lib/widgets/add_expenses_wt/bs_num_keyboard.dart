@@ -1,3 +1,5 @@
+import 'package:balance/utils/constants.dart';
+import 'package:balance/widgets/add_expenses_wt/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class BSNumKeyboard extends StatefulWidget {
@@ -118,6 +120,41 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                             },
                           ),
                         ]),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CustomButton(
+                          height: 50,
+                          width: 100,
+                          margin: const EdgeInsets.only(top: 10),
+                          decoration: const BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: const Text(
+                            "Aceptar",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                          ontap: () {},
+                        ),
+                        CustomButton(
+                          height: 50,
+                          width: 100,
+                          margin: const EdgeInsets.only(top: 10),
+                          decoration: const BoxDecoration(
+                              color: Colors.red,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: const Text(
+                            "Cancelar",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                          ontap: () {},
+                        )
                       ],
                     )
                   ],
