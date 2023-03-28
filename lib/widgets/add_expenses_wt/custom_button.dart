@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   const CustomButton(
       {super.key,
-      this.width = 50,
+      this.width = 100,
       this.height = 50,
       this.ontap,
       this.decoration,
@@ -12,7 +12,7 @@ class CustomButton extends StatelessWidget {
 
   final double width;
   final double height;
-  final void Function()? ontap;
+  final VoidCallback? ontap;
   final Widget child;
   final BoxDecoration? decoration;
   final EdgeInsets? margin;

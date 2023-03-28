@@ -11,6 +11,7 @@ class BSNumKeyboard extends StatefulWidget {
 
 class _BSNumKeyboardState extends State<BSNumKeyboard> {
   String importe = '0.00';
+  RegExp exp = RegExp('^[0-9]+(.[0-9]+)?\$');
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +139,13 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
-                          ontap: () {},
+                          ontap: () {
+                            if (exp.hasMatch(importe)) {
+                              _alerta('Aprovado', 'Ingreso aprovado');
+                            } else {
+                              _alerta('Denegado', 'Ingreso denegado');
+                            }
+                          },
                         ),
                         CustomButton(
                           height: 50,
@@ -153,7 +160,11 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
-                          ontap: () {},
+                          ontap: () {
+                            setState(() {
+                              importe = '0.00';
+                            });
+                          },
                         )
                       ],
                     )
@@ -163,5 +174,30 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
             ),
           );
         });
+  }
+
+  Future<void> _alerta(String titulo, String cuerpo) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(titulo),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[Text(cuerpo)],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Aceptar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
