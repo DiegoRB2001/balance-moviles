@@ -11,10 +11,14 @@ class BSNumKeyboard extends StatefulWidget {
 
 class _BSNumKeyboardState extends State<BSNumKeyboard> {
   String importe = '0.00';
-  RegExp exp = RegExp('^[0-9]+(.[0-9]+)?\$');
+  RegExp exp = RegExp('^\\d+(\\.\\d+)?\$');
 
   @override
   Widget build(BuildContext context) {
+    String Function(Match) matchFunc;
+    RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+    matchFunc = (Match match) => '${match[1]},';
+
     return GestureDetector(
       onTap: () {
         _numPad();
@@ -25,7 +29,7 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
           children: [
             const Text('Cantidad ingresada'),
             Text(
-              '\$ $importe',
+              '\$ ${importe.replaceAllMapped(reg, matchFunc)}',
               style: const TextStyle(
                   fontSize: 30, letterSpacing: 2, fontWeight: FontWeight.bold),
             ),
@@ -66,111 +70,128 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
             borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
         context: context,
         builder: (BuildContext context) {
-          return SizedBox(
-            height: 900,
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                var _height = constraints.biggest.height / 5;
-                return Column(
-                  children: [
-                    Table(
-                      border: TableBorder.symmetric(
-                          inside: const BorderSide(
-                        width: 1.1,
-                      )),
-                      children: [
-                        TableRow(children: [
-                          _num('1', _height),
-                          _num('2', _height),
-                          _num('3', _height),
-                        ]),
-                        TableRow(children: [
-                          _num('4', _height),
-                          _num('5', _height),
-                          _num('6', _height),
-                        ]),
-                        TableRow(children: [
-                          _num('7', _height),
-                          _num('8', _height),
-                          _num('9', _height),
-                        ]),
-                        TableRow(children: [
-                          _num('.', _height),
-                          _num('0', _height),
-                          GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            child: SizedBox(
-                              height: _height,
-                              child: const Icon(
-                                Icons.backspace,
-                                size: 35,
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: SizedBox(
+              height: 900,
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  var _height = constraints.biggest.height / 5;
+                  return Column(
+                    children: [
+                      Table(
+                        border: TableBorder.symmetric(
+                            inside: const BorderSide(
+                          width: 1.1,
+                        )),
+                        children: [
+                          TableRow(children: [
+                            _num('1', _height),
+                            _num('2', _height),
+                            _num('3', _height),
+                          ]),
+                          TableRow(children: [
+                            _num('4', _height),
+                            _num('5', _height),
+                            _num('6', _height),
+                          ]),
+                          TableRow(children: [
+                            _num('7', _height),
+                            _num('8', _height),
+                            _num('9', _height),
+                          ]),
+                          TableRow(children: [
+                            _num('.', _height),
+                            _num('0', _height),
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              child: SizedBox(
+                                height: _height,
+                                child: const Icon(
+                                  Icons.backspace,
+                                  size: 35,
+                                ),
+                              ),
+                              onLongPress: () {
+                                setState(() {
+                                  importe = '0.00';
+                                });
+                              },
+                              onTap: () {
+                                setState(() {
+                                  if (importe.isNotEmpty) {
+                                    importe = importe.substring(
+                                        0, importe.length - 1);
+                                  }
+                                });
+                              },
+                            ),
+                          ]),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CustomButton(
+                                height: 50,
+                                width: 100,
+                                decoration: const BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "Aceptar",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                                ontap: () {
+                                  setState(() {
+                                    if (importe.isEmpty) importe = '0.00';
+                                  });
+                                  if (exp.hasMatch(importe)) {
+                                    _alerta('Aprovado', 'Ingreso aprovado');
+                                  } else {
+                                    _alerta('Denegado', 'Ingreso denegado');
+                                  }
+                                },
                               ),
                             ),
-                            onLongPress: () {
-                              setState(() {
-                                importe = '0.00';
-                              });
-                            },
-                            onTap: () {
-                              setState(() {
-                                if (importe.isNotEmpty) {
-                                  importe =
-                                      importe.substring(0, importe.length - 1);
-                                }
-                              });
-                            },
                           ),
-                        ]),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CustomButton(
-                          height: 50,
-                          width: 100,
-                          margin: const EdgeInsets.only(top: 10),
-                          decoration: const BoxDecoration(
-                              color: Colors.green,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: const Text(
-                            "Aceptar",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                          ),
-                          ontap: () {
-                            if (exp.hasMatch(importe)) {
-                              _alerta('Aprovado', 'Ingreso aprovado');
-                            } else {
-                              _alerta('Denegado', 'Ingreso denegado');
-                            }
-                          },
-                        ),
-                        CustomButton(
-                          height: 50,
-                          width: 100,
-                          margin: const EdgeInsets.only(top: 10),
-                          decoration: const BoxDecoration(
-                              color: Colors.red,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: const Text(
-                            "Cancelar",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                          ),
-                          ontap: () {
-                            setState(() {
-                              importe = '0.00';
-                            });
-                          },
-                        )
-                      ],
-                    )
-                  ],
-                );
-              },
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CustomButton(
+                                height: 50,
+                                width: 100,
+                                decoration: const BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25))),
+                                child: const Text(
+                                  "Cancelar",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                                ontap: () {
+                                  setState(() {
+                                    importe = '0.00';
+                                    Navigator.pop(context);
+                                  });
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  );
+                },
+              ),
             ),
           );
         });
