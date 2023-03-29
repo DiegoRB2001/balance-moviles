@@ -49,9 +49,7 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
             if (importe == '0.00') importe = '';
             if (importe.contains('.')) {
               String decimal = importe.split('.')[1];
-              if (_text == '.' ||
-                  decimal.length == 2 ||
-                  (decimal.length == 1 && _text == '0')) {
+              if (_text == '.' || decimal.length == 2) {
                 return;
               }
             }
@@ -169,9 +167,11 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                                   setState(() {
                                     if (importe.contains('.')) {
                                       List<String> split = importe.split('.');
-                                      if (split[1].endsWith('0') ||
-                                          split[1].isEmpty) {
+                                      if (split[1] == '0' || split[1].isEmpty) {
                                         importe = split[0];
+                                      } else if (split[1].length == 1 &&
+                                          !split[1].contains('0')) {
+                                        importe = importe += '0';
                                       }
                                     }
                                   });
