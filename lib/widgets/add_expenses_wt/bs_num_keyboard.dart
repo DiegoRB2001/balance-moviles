@@ -40,12 +40,25 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
   }
 
   _numPad() {
+    String temp = importe;
     _num(String _text, double _height) {
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
           setState(() {
             if (importe == '0.00') importe = '';
+            if (importe.contains('.')) {
+              String decimal = importe.split('.')[1];
+              if (_text == '.' ||
+                  decimal.length == 2 ||
+                  (decimal.length == 1 && _text == '0')) {
+                return;
+              }
+            }
+            if (importe == '0' && _text != '.') {
+              importe = _text;
+              return;
+            }
             importe += _text;
           });
         },
@@ -123,6 +136,9 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                                     importe = importe.substring(
                                         0, importe.length - 1);
                                   }
+                                  if (importe.isEmpty) {
+                                    importe = '0.00';
+                                  }
                                 });
                               },
                             ),
@@ -151,13 +167,15 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                                 ),
                                 ontap: () {
                                   setState(() {
-                                    if (importe.isEmpty) importe = '0.00';
+                                    if (importe.contains('.')) {
+                                      List<String> split = importe.split('.');
+                                      if (split[1].endsWith('0') ||
+                                          split[1].isEmpty) {
+                                        importe = split[0];
+                                      }
+                                    }
                                   });
-                                  if (exp.hasMatch(importe)) {
-                                    _alerta('Aprovado', 'Ingreso aprovado');
-                                  } else {
-                                    _alerta('Denegado', 'Ingreso denegado');
-                                  }
+                                  Navigator.pop(context);
                                 },
                               ),
                             ),
@@ -179,7 +197,7 @@ class _BSNumKeyboardState extends State<BSNumKeyboard> {
                                 ),
                                 ontap: () {
                                   setState(() {
-                                    importe = '0.00';
+                                    importe = temp;
                                     Navigator.pop(context);
                                   });
                                 },
